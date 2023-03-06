@@ -1,0 +1,16 @@
+{{ if .Values.ingress.enabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: backend-{{ .Values.ingress.adminHost }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ .Values.ingress.adminHost }}`)
+      kind: Rule
+      services:
+        - name: {{ $.Release.Name }}-svc-admin
+          port: 80
+{{ end }}

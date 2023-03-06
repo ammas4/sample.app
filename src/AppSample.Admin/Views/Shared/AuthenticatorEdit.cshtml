@@ -1,0 +1,42 @@
+﻿@using AppSample.Domain.Models.ServiceProviders;
+@using HtmlHelpers.BeginCollectionItemCore;
+
+@model AppSample.Admin.Models.ServiceProviders.AuthenticatorViewModel
+
+<li class="auth-channel">
+    @using (Html.BeginCollectionItem("Authenticators"))
+    {
+        <div style="display: flex">
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.ServiceProviderId)
+            @Html.HiddenFor(model => model.OrderLevel1)
+            @Html.HiddenFor(model => model.OrderLevel2)
+            <div class="auth-channel-control">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grip-vertical" viewBox="0 0 16 16">
+                  <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+            </div>
+            <div class="auth-channel-control">
+                @Html.DropDownListFor(model => model.Type,
+                    new[]
+                    {
+                        new SelectListItem("None", AuthenticatorType.NoValue.ToString("D")),
+                        new SelectListItem("SMS+URL", AuthenticatorType.SmsWithUrl.ToString("D")),
+                        new SelectListItem("SMS+OTP", AuthenticatorType.SmsOtp.ToString("D")),
+                        new SelectListItem("USSD", AuthenticatorType.Ussd.ToString("D")),
+                        new SelectListItem("Seamless", AuthenticatorType.Seamless.ToString("D")),
+                        new SelectListItem("Push Mc", AuthenticatorType.PushMc.ToString("D")),
+                        new SelectListItem("Push Dstk", AuthenticatorType.PushDstk.ToString("D")),
+                    },
+                    null, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="auth-channel-control">
+                @Html.EditorFor(model => model.NextChainStartDelay, new { htmlAttributes = new { Title = "Таймаут перед следующей группой (hh:mm:ss)" }, })
+                @Html.ValidationMessageFor(model => model.NextChainStartDelay, "", new { @class = "text-danger" })
+            </div>
+            <div class="auth-channel-control">
+                <a class="pparent-remove" href="javascript:void(0)">Удалить</a>
+            </div>
+        </div>
+    }
+</li>

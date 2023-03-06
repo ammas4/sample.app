@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
+    <PackageReference Include="Inetlab.SMPP" Version="2.9.19" />
+    <PackageReference Include="Npgsql" Version="6.0.7" />
+    <PackageReference Include="OpenIddict.Server" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppSample.Domain\AppSample.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

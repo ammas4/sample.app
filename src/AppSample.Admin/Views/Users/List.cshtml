@@ -1,0 +1,53 @@
+﻿@using AppSample.Domain
+@using AppSample.CoreTools.Helpers
+@using AppSample.Admin.Models
+@using AppSample.Domain.Models.AdminUsers
+@model AppSample.Admin.Models.AdminUsers.AdminUserListViewModel
+
+@{
+    ViewBag.Title = "Список пользователей";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Пользователи, которым разрешен доступ к сайту</p>
+
+@if (Model.ConfigUsers.Count > 0)
+{
+    <p>Для @(string.Join(", ", Model.ConfigUsers)) доступ разрешен на уровне настроек сайта</p>
+}
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm" title="Добавление нового пользователя">
+        <span class="fa fa-plus"></span>
+    </a>
+</p>
+
+<div id="campaignsList">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Логин</th>
+                <th>Роль</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Login</td>
+                <td>@(EnumHelper<AdminUserRole>.GetDescription(item.Role))</td>
+                <td>
+                    <a href="@Url.Action("Confirm", new {id = item.Id, type = ActionKey.Delete})" class="btn btn-primary btn-sm" title="Удалить пользователя">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

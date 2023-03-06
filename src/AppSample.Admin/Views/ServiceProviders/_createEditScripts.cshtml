@@ -1,0 +1,79 @@
+﻿@model AppSample.Admin.Models.ServiceProviders.ServiceProviderAddEditViewModel
+
+<script>
+$(() => {
+
+    var setFlagSelectAllEvents = (checkBoxSelectAllSelector, tableName, checkBoxSelector) => {
+        $(checkBoxSelectAllSelector).click(function() {
+            var chk = $(this).is(':checked');
+            $('input[id ^= "' + checkBoxSelector + '-"]', '#' + tableName).each(function () {  
+                $(this).prop('checked', chk);});
+    });
+};
+
+
+
+    var getScopes = (button) => {
+        $(button).click(function() {
+            console.log("press button");
+
+            var selectedAvailableFlags = [];
+
+            $('input[id ^= "' + 'AvailableFlag' + '-"]').each(function () { selectedAvailableFlags.push({FullClaimName : $(this).attr("value"), AvailableFlag : $(this).is(':checked') });});
+            $("#selectedAvailableFlagsId").val(JSON.stringify(selectedAvailableFlags));
+            console.log(selectedAvailableFlags);
+
+            var selectedRequiredFlags = [];
+
+            $('input[id ^= "' + 'RequiredFlag' + '-"]').each(function () { selectedRequiredFlags.push({FullClaimName : $(this).attr("value"), RequiredFlag : $(this).is(':checked') });});
+            $("#selectedRequiredFlagsId").val(JSON.stringify(selectedRequiredFlags));
+            console.log(selectedRequiredFlags);
+    })
+
+    };
+
+
+            getScopes("#CommandTargetId");
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_nationalid', 'mc_identity_nationalid-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_nationalid', 'mc_identity_nationalid-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_phonenumber', 'mc_identity_phonenumber-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_phonenumber', 'mc_identity_phonenumber-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_email', 'mc_email-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_email', 'mc_email-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_taxid_rus', 'mc_identity_taxid_rus-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_taxid_rus', 'mc_identity_taxid_rus-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_basic', 'mc_identity_basic-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_basic', 'mc_identity_basic-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_basic_address', 'mc_identity_basic_address-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_basic_address', 'mc_identity_basic_address-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_bigdata', 'mc_identity_bigdata-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_bigdata', 'mc_identity_bigdata-table', 'RequiredFlag');
+
+setFlagSelectAllEvents('#AvailableFlagSelectAll-mc_identity_full', 'mc_identity_full-table', 'AvailableFlag');
+setFlagSelectAllEvents('#RequiredFlagSelectAll-mc_identity_full', 'mc_identity_full-table', 'RequiredFlag');
+
+
+        var setUpdateEvents = (fieldName, idPrefix) => {
+            var updateVisibility = () => {
+                var value = $('[name=' + fieldName + ']:checked').val();
+                $('[id^=' + idPrefix + '-]').hide();
+                $('[id=' + idPrefix + '-' + value.toLowerCase() + ']').show();
+            };
+
+            $('[name=' + fieldName + ']').change(updateVisibility);
+
+            updateVisibility();
+        };
+
+        setUpdateEvents('@(Html.NameFor(x => x.JwksSourceType))', 'jwks-source-type');
+        setUpdateEvents('@(Html.NameFor(x => x.JwksEncSourceType))', 'jwks-enc-source-type');
+    });
+    
+</script>

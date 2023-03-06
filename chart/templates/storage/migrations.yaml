@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-postgres-migrations-job"
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-postgres-migrations"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: postgres-migrations-job
+        image: "jfrog.mydomain.ru/dockervirtual/dotnetroundhouse/roundhouse"
+        command: ["/bin/bash", "-c"]
+        args:
+        - dotnet rh.dll --dt postgres --cs "{{ .Values.postgres.migrationsSqlConnectionString }};SslMode=Require;TrustServerCertificate=True;ServerCompatibilityMode=Redshift"
+        volumeMounts:
+          - mountPath: /app/up
+            name: postgres-migrations-config-volume
+            subPath: ..data
+      volumes:
+        - name: postgres-migrations-config-volume
+          configMap:
+             name: postgres-migrations-config
+  backoffLimit: 0

@@ -1,0 +1,37 @@
+﻿@model AppSample.Api.Models.AskUserTextVm
+@using AppSample.Api
+@using AppSample.Api.Controllers
+@using AppSample.CoreTools.Extensions;
+
+@{
+    var userAnswerPath = Url.RouteFullUrl(UssdController.UserAnswerRouteName, Model.IdgwSettings.BasePath);
+}
+
+<HTML>
+<HEAD>
+    <TITLE>UMB toplevel</TITLE>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</HEAD>
+<BODY>
+@if (Model.ServiceProvider == null)
+{
+    @:Подтвердите вход
+}
+else
+if (string.IsNullOrEmpty(@Model.BindingMessage) && string.IsNullOrEmpty(@Model.Context))
+{
+    @:Подтвердите вход на сайт @Model.ServiceProvider.Name
+}
+else
+if (!string.IsNullOrEmpty(@Model.BindingMessage) || !string.IsNullOrEmpty(@Model.Context))
+{
+    @:@Html.Raw(Model.BindingMessage?.Truncate(44) + Model.Context?.Truncate(80))
+}
+
+<br>
+<a href="@userAnswerPath" accesskey="1">>Да<br></a>
+<br>
+<a href="@userAnswerPath" accesskey="2">>Нет</a>
+<a href="@userAnswerPath" default="yes"/>
+</BODY>
+</HTML>

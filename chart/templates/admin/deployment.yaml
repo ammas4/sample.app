@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-admin
+  labels:
+    app: {{ .Values.app }}
+    component: admin
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  strategy:
+      type: {{ .Values.strategy }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app }}
+      component: admin
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app }}
+        component: admin
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Release.Name }}-registry
+      containers:
+        - name: api
+          image: {{ .Values.images.registry }}/{{ .Values.images.admin.name }}:{{ .Values.images.admin.tag }}
+          volumeMounts:
+            - mountPath: /app/appsettings.json
+              name: config-volume
+              subPath: appsettings.json
+            - mountPath: /app/nlog.config
+              name: config-volume
+              subPath: nlog.config
+
+      volumes:
+        - name: config-volume
+          secret:
+             secretName: {{ .Release.Name }}-admin

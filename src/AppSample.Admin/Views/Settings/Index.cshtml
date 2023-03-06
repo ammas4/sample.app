@@ -1,0 +1,37 @@
+﻿@model AppSample.Admin.Models.Settings.SettingsEditViewModel
+
+@{
+    ViewBag.Title = "Редактирование настроек";
+}
+
+@Html.AntiForgeryToken()
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Settings", new { }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <table class="table caption-top">
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (var i = 0; i < Model.SettingsItems.Count; i++)
+            {
+                <tr>
+                    @Html.HiddenFor(model => model.SettingsItems[i].Name)
+                    <td>@Model.SettingsItems[i].Name</td>
+                    <td>@Html.EditorFor(model => model.SettingsItems[i].Value)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <div style="margin-left: 20px;">
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+    </div>
+}

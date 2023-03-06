@@ -1,0 +1,3 @@
+[submodule "submodules/union"]
+	path = submodules/union
+	url = https://github.com/Alexander1829/csharp.union

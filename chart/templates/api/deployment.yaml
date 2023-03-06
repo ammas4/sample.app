@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-api
+  labels:
+    app: {{ .Values.app }}
+    component: api
+    release: {{ .Release.Name }}
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
+spec:
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  strategy:
+      type: {{ .Values.strategy }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app }}
+      component: api
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app }}
+        component: api
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Release.Name }}-registry
+      containers:
+        - name: api
+          image: {{ .Values.images.registry }}/{{ .Values.images.api.name }}:{{ .Values.images.api.tag }}
+          resources:
+            limits:
+              memory: {{ .Values.api.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.api.resources.requests.cpu }}
+              memory: {{ .Values.api.resources.requests.memory }}
+          readinessProbe:
+            httpGet:
+              path: /healthcheck/heartbeat
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /app/appsettings.json
+              name: config-volume
+              subPath: appsettings.json
+            - mountPath: /app/nlog.config
+              name: config-volume
+              subPath: nlog.config
+
+      volumes:
+        - name: config-volume
+          secret:
+             secretName: {{ .Release.Name }}-api

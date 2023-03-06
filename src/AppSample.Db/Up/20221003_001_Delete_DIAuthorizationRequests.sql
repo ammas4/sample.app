@@ -1,0 +1,1 @@
+﻿DROP TABLE IF EXISTS Di_Authorization_Requests;

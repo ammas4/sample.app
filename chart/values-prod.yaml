@@ -1,0 +1,74 @@
+app: APPSAMPLE
+
+stage: prod
+
+registryConfig: ""
+
+api:
+  autoscaling:
+    minReplicas: 1
+    maxReplicas: 2
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      cpu: 1000m
+      memory: 1Gi
+
+revisionHistoryLimit: 3
+
+strategy: RollingUpdate
+
+images:
+  registry: APPSAMPLE.
+  api:
+    name: APPSAMPLE
+    tag: "1.1.13"
+  admin:
+    name: APPSAMPLE
+    tag: "1.1.13"
+
+ingress:
+  enabled: true
+  host: APPSAMPLE.
+  hostAliasForXbr: APPSAMPLE.
+  adminHost: APPSAMPLE.
+
+appsettings:
+  sqlConnectionString: ""
+  redisConnectionString: ""
+  smppSettings:
+    systemId: ""
+    password: ""
+  daSettings:
+    apiKey: ""
+  upsSettings:
+    username: ""
+    password: ""
+  changeBanImsiSettings:
+    username: ""
+    password: ""
+
+postgres:
+  migrationsSqlConnectionString: ""
+  dbName: APPSAMPLE
+  size: 10Gi
+  numberOfInstances: 2
+  enableConnectionPooler: true
+  storageClass: csi-rbd-sc-prod
+
+nlog:
+  elasticUrl: ""
+  elasticUser: ""
+  elasticPassword: ""
+  api:
+   internalLogLevel: "Info"
+   internalLogFile: "/app/internal/internal.log"
+   elasticMinLevel: "Info"
+   elasticIndex: "APPSAMPLE_IDGW_API_K8S_PROD-${date:format=yyyy.MM.dd}"
+  admin:
+   internalLogLevel: "Info"
+   internalLogFile: "/app/internal/internal.log"
+   elasticMinLevel: "Info"
+   elasticIndex: "APPSAMPLE_IDGW_ADMIN_K8S_PROD-${date:format=yyyy.MM.dd}"
+ 

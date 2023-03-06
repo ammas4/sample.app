@@ -1,0 +1,502 @@
+﻿@using AppSample.Domain.Models
+@using AppSample.Admin.Models.ServiceProviders;
+@using AppSample.Domain.Helpers
+@model AppSample.Admin.Models.ServiceProviders.ServiceProviderAddEditViewModel
+
+@Html.AntiForgeryToken()
+
+<div style="display: flex;" class="form-group">
+    <div>
+        <a href="@Url.Action("Index")" class="btn btn-primary" title="К списку сервис-провайдеров">
+            <span class="fa fa-arrow-left"></span> Назад
+        </a>
+    </div>
+    <div style="margin-left: 20px;">
+        @if (Model.Id > 0)
+        {
+            <p class="h2">@Model.Name</p>   
+        }
+        else
+        {
+            <p class="h2 text-muted">Новый сервис-провайдер</p>
+        }
+    </div>
+    <div style="margin-left: 20px;">
+        <button type="submit" class="btn btn-success" value="save" id="CommandTargetId" name="CommandTarget">Сохранить</button>
+    </div>
+    
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div style="margin-left: 20px;">
+            <p class="text-success">Данные сохранены</p>
+        </div>
+    }
+    
+    @if (ViewBag.Error != null)
+    {
+        <div style="margin-left: 20px;">
+            <p class="text-danger">@ViewBag.Error</p>
+        </div>
+    }
+</div>
+
+@Html.HiddenFor(model => model.SelectedTab)
+
+<div class="align-items-start">
+
+<div class="container">
+<div class="nav nav-pills"
+     id="v-pills-tab"
+     role="tablist"
+     style="margin-bottom: 20px;">
+    <button class="nav-link @(Model.SelectedTab <= 1 ? "active" : "")"
+            id="v-pills-general-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-general"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-general"
+            aria-selected="true"
+            onclick="tabClick(1)">
+        General
+    </button>
+    <button class="nav-link @(Model.SelectedTab == 2 ? "active" : "")"
+            id="v-pills-jwks-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-jwks"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-jwks"
+            aria-selected="false"
+            onclick="tabClick(2)">
+        JWKS
+    </button>
+    <button class="nav-link @(Model.SelectedTab == 3 ? "active" : "")"
+            id="v-pills-urls-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-urls"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-urls"
+            aria-selected="false"
+            onclick="tabClick(3)">
+        URLs
+    </button>
+    <button class="nav-link @(Model.SelectedTab == 4 ? "active" : "")"
+            id="v-pills-auth-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-auth"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-auth"
+            aria-selected="false"
+            onclick="tabClick(4)">
+        Authenticators
+    </button>
+    <button class="nav-link @(Model.SelectedTab == 5 ? "active" : "")"
+            id="v-pills-doctypes-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-doctypes"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-doctypes"
+            aria-selected="false"
+            onclick="tabClick(5)">
+        Document Types
+    </button>
+    <button class="nav-link @(Model.SelectedTab == 6 ? "active" : "")"
+            id="v-pills-loa-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-loa"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-loa"
+            aria-selected="false"
+            onclick="tabClick(6)">
+        Scopes and LoA
+    </button>
+    <button class="nav-link @(Model.SelectedTab >= 7 ? "active" : "")"
+            id="v-pills-claims-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-claims"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-claims"
+            aria-selected="false"
+            onclick="tabClick(7)">
+        Scopes and claims
+    </button>
+</div>
+
+<div class="tab-content" id="v-pills-tabContent">
+
+<div class="tab-pane fade @(Model.SelectedTab <= 1 ? "show active" : "")" id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab" tabindex="0">
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.Active, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.CheckBoxFor(model => model.Active)
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.ClientId, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ClientId, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.ClientSecret, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ClientSecret, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ClientSecret, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.EncryptionMethod, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.EncryptionMethod,
+                new[]
+                {
+                    new SelectListItem("A128CBC-HS256", JweMethodEncryption.A128CBC_HS256.ToString("D")),
+                    new SelectListItem("A192CBC-HS384", JweMethodEncryption.A192CBC_HS384.ToString("D")),
+                    new SelectListItem("A256CBC-HS512", JweMethodEncryption.A256CBC_HS512.ToString("D")),
+                    new SelectListItem("A128GCM", JweMethodEncryption.A128GCM.ToString("D")),
+                    new SelectListItem("A192GCM", JweMethodEncryption.A192GCM.ToString("D")),
+                    new SelectListItem("A256GCM", JweMethodEncryption.A256GCM.ToString("D"))
+                },
+                null, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EncryptionMethod, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.EncryptionAlgorithm, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.EncryptionAlgorithm,
+                new[]
+                {
+                    new SelectListItem("RSA1-5", JweAlgorithm.RSA1_5.ToString("D")),
+                    new SelectListItem("RSA-OAEP", JweAlgorithm.RSA_OAEP.ToString("D")),
+                    new SelectListItem("RSA-OAEP-256", JweAlgorithm.RSA_OAEP_256.ToString("D"))
+                },
+                null, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EncryptionAlgorithm, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.TTL, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.TTL, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TTL, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade @(Model.SelectedTab == 2 ? "show active" : "")" id="v-pills-jwks" role="tabpanel" aria-labelledby="v-pills-jwks-tab" tabindex="0">
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.JwksSourceType, new { @class = "control-label col-md-2" })
+        <label style="margin-right: 20px;">
+            @Html.RadioButtonFor(model => model.JwksSourceType, JwksSourceType.Url)
+            By URL
+        </label>
+        <label>
+            @Html.RadioButtonFor(model => model.JwksSourceType, JwksSourceType.Content)
+            By value
+        </label>
+    </div>
+
+    <div class="form-group col-md-12" id="jwks-source-type-content">
+        @Html.LabelFor(model => model.JwksContent, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.JwksContent, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.JwksContent, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12" id="jwks-source-type-url">
+        @Html.LabelFor(model => model.JwksUrl, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.JwksUrl, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.JwksUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.JwksEncSourceType, new { @class = "control-label col-md-2" })
+        <label style="margin-right: 20px;">
+            @Html.RadioButtonFor(model => model.JwksEncSourceType, JwksSourceType.Url)
+            By URL
+        </label>
+        <label>
+            @Html.RadioButtonFor(model => model.JwksEncSourceType, JwksSourceType.Content)
+            By value
+        </label>
+    </div>
+
+    <div class="form-group col-md-12" id="jwks-enc-source-type-content">
+        @Html.LabelFor(model => model.JwksEncContent, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.JwksEncContent, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.JwksEncContent, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12" id="jwks-enc-source-type-url">
+        @Html.LabelFor(model => model.JwksEncUrl, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.JwksEncUrl, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.JwksEncUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade @(Model.SelectedTab == 3 ? "show active" : "")" id="v-pills-urls" role="tabpanel" aria-labelledby="v-pills-urls-tab" tabindex="0">
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.NotificationUrls, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.NotificationUrls, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NotificationUrls, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.RedirectUrls, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.RedirectUrls, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RedirectUrls, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.OtpNotifyUrl, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.OtpNotifyUrl, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.OtpNotifyUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.AuthPageUrl, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.AuthPageUrl, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.AuthPageUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        @Html.LabelFor(model => model.RedirectTimeoutSeconds, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.RedirectTimeoutSeconds, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RedirectTimeoutSeconds, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade @(Model.SelectedTab == 4 ? "show active" : "")" id="v-pills-auth" role="tabpanel" aria-labelledby="v-pills-auth-tab" tabindex="0">
+    @if (@Model.Authenticators != null)
+    {
+        <ul id="authenticatorEditor" class="sort-auth">
+            @foreach (var order1 in Model.Authenticators
+                .Select(i => i.OrderLevel1)
+                .Distinct()
+                .OrderBy(i => i))
+            {
+                <li class="sort-auth-item">
+                    <div class="auth">
+                        <div >
+                            <ul class="sort-channel">
+                                @foreach (var authenticator in Model.Authenticators
+                                    .Where(i => i.OrderLevel1 == order1)
+                                    .OrderBy(i => i.OrderLevel2))
+                                {
+                                    await Html.RenderPartialAsync("AuthenticatorEdit", authenticator);
+                                }
+                            </ul>
+                            
+                            <a href="javascript:void(0)" onclick="addAuthChannel(this)">Добавить аутентификатор</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+
+    <div style="margin: 0px 0px 14px; padding: 0px 0px 0px 28px">
+        <a href="javascript:void(0)" onclick="addAuth()">Добавить группу</a>
+    </div>
+</div>
+
+<div class="tab-pane fade @(Model.SelectedTab == 5 ? "show active" : "")" id="v-pills-doctypes" role="tabpanel" aria-labelledby="v-pills-doctypes-tab" tabindex="0">
+    <div class="form-group col-md-12">
+        <div class="col-md-10">
+            <table class="table table-sm caption-top text-center">
+                <thead class="table-primary">
+                <tr>
+                    <th scope="col">Document Type</th>
+                    <th scope="col">Is Required</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for (var i = 0; i < Model.DocTypes.Count; i++)
+                {
+                    @Html.HiddenFor(model => model.DocTypes[i].DocType)
+                    <tr>
+                        <td>@Model.DocTypes[i].DocType</td>
+                        <td>@Html.CheckBoxFor(model => model.DocTypes[i].IsRequired)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade @(Model.SelectedTab == 6 ? "show active" : "")" id="v-pills-loa" role="tabpanel" aria-labelledby="v-pills-loa-tab" tabindex="0">
+    <div class="form-group col-md-12">
+        <div class="col-md-10">
+            @if (@Model.Scopes != null && @Model.Scopes.Any())
+            {
+                <table class="table table-sm caption-top text-center">
+                    <thead class="table-primary">
+                    <tr>
+                        <th scope="col">Scope</th>
+                        <th scope="col">Enable</th>
+                        <th scope="col">LOA2</th>
+                        <th scope="col">LOA3</th>
+                        <th scope="col">LOA4</th>
+                        <th scope="col" class="col-6">Message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (var i = 0; i < Model.Scopes.Count; i++)
+                    {
+                        object? attributes = @Model.Scopes[i].IsRequired ? new { disabled = "disabled" } : null;
+                        @Html.HiddenFor(model => model.Scopes[i].ScopeName)
+                        <tr>
+                            <td>@Model.Scopes[i].ScopeName</td>
+                            <td>@Html.CheckBoxFor(model => model.Scopes[i].IsEnabled, attributes)</td>
+                            <td>@Html.CheckBoxFor(model => model.Scopes[i].IsLoa2Enabled, attributes)</td>
+                            <td>@Html.CheckBoxFor(model => model.Scopes[i].IsLoa3Enabled, attributes)</td>
+                            <td>@Html.CheckBoxFor(model => model.Scopes[i].IsLoa4Enabled, attributes)</td>
+                            <td>
+                                @if (ScopesHelper.IsCustomMessageRequired(Model.Scopes[i]))
+                                {
+                                    @Html.TextBoxFor(model => model.Scopes[i].Message, new { @class = "form-control", placeholder = "Подтвердите вход на сайт %ClientName%" })
+                                }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade @(Model.SelectedTab >= 7 ? "show active" : "")" id="v-pills-claims" role="tabpanel" aria-labelledby="v-pills-claims-tab" tabindex="0">
+    <input type="hidden" id="selectedAvailableFlagsId" name="selectedAvailableFlags" value="@Model.SelectedAvailableFlags"/>
+    <input type="hidden" id="selectedRequiredFlagsId" name="selectedRequiredFlags" value="@Model.SelectedRequiredFlags"/>
+
+    @if (Model.Scopes != null && Model.Scopes.Any())
+    {
+        var isFirstClaimSelected = false;
+        var isFirstClaimDisplayed = false;
+        
+        <div style="display: flex;">
+            <div class="nav flex-column nav-pills"
+                 id="v-claims-tab"
+                 role="tablist"
+                 aria-orientation="vertical">
+
+                @for (var i = 0; i < Model.Scopes.Count; i++)
+                {
+                    if (!Model.Scopes[i].Claims.Any())
+                    {
+                        @Html.HiddenFor(model => model.Scopes[i].Claims)
+                        continue;
+                    }
+
+                    <button class="nav-link @(!isFirstClaimSelected ? "active" : "")"
+                            id="v-claims-@Model.Scopes[i].ScopeName-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#v-claims-@Model.Scopes[i].ScopeName"
+                            type="button"
+                            role="tab"
+                            aria-controls="v-claims-@Model.Scopes[i].ScopeName"
+                            aria-selected="true">
+                        @Model.Scopes[i].ScopeName
+                    </button>
+
+                    isFirstClaimSelected = true;
+                }
+            </div>
+
+            <div class="tab-content" id="v-claims-tabContent">
+                @for (var i = 0; i < Model.Scopes.Count; i++)
+                {
+                    if (!Model.Scopes[i].Claims.Any())
+                    {
+                        @Html.HiddenFor(model => model.Scopes[i].Claims)
+                        continue;
+                    }
+
+                    <div 
+                        class="tab-pane fade @(!isFirstClaimDisplayed ? "show active" : "")" 
+                        id="v-claims-@Model.Scopes[i].ScopeName" 
+                        role="tabpanel" 
+                        aria-labelledby="v-claims-@Model.Scopes[i].ScopeName-tab" 
+                        tabindex="@i"
+                        style="margin-left: 20px;">
+                        <table class="table table-sm caption-top" id="@Model.Scopes[i].ScopeName-table">
+                            <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Claim</th>
+                                <th scope="col">Allowed</th>
+                                <th scope="col">Required</th>
+                            </tr>
+                            </thead>
+                            
+                            <tbody>
+                            <tr>
+                                <th scope="row"></th>
+                                <td><input id="AvailableFlagSelectAll-@Model.Scopes[i].ScopeName" type="checkbox" name="AvailableFlagSelectAll"/> Все<br></td>
+                                <td><input id="RequiredFlagSelectAll-@Model.Scopes[i].ScopeName" type="checkbox" name="RequiredFlagSelectAll"/> Все<br></td>
+                            </tr>
+
+                            @for (var j = 0; j < Model.Scopes[i].Claims.Count; j++)
+                            {
+                                @Html.HiddenFor(model => model.Scopes[i].Claims[j].ClaimName)
+                                @Html.HiddenFor(model => model.Scopes[i].Claims[j].FullClaimName)
+                                <tr>
+                                    <th scope="row">@Model.Scopes[i].Claims[j].ClaimName</th>
+                                    <td>@Html.CheckBoxFor(model => model.Scopes[i].Claims[j].AvailableFlag, new { @id = $"AvailableFlag-{Model.Scopes[i].Claims[j].ClaimName}" })</td>
+                                    <td>@Html.CheckBoxFor(model => model.Scopes[i].Claims[j].RequiredFlag, new { @id = $"RequiredFlag-{Model.Scopes[i].Claims[j].ClaimName}" })</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    isFirstClaimDisplayed = true;
+                }
+            </div>
+        </div>
+    }
+</div>
+
+</div>
+
+</div>
+</div>

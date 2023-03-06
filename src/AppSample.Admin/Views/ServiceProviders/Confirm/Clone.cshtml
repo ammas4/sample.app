@@ -1,0 +1,23 @@
+﻿@using AppSample.Admin.Models
+@model AppSample.Admin.Models.ServiceProviders.ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "Подтверждение действий";
+}
+
+<div>
+    <h2>Подтверждение копирования сервис-провайдера</h2>
+
+    <p>Вы собираетесь скопировать сервис-провайдера @Model.Name
+    <p>
+        @using (Html.BeginForm("Action", "ServiceProviders", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            @Html.Hidden("type", ActionKey.Clone)
+
+            <button class="btn btn-primary btn-sm">Скопировать</button>
+            <a href="@Url.Action("Index")" class="btn btn-primary btn-sm">Назад</a>
+        }
+    </p>
+</div>

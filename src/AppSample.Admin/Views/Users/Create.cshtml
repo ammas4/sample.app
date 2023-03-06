@@ -1,0 +1,13 @@
+﻿@model AppSample.Admin.Models.AdminUsers.AdminUserAddViewModel
+
+<h2>Добавление пользователя</h2>
+
+<p>
+    <a href="@Url.Action("Index")" class="btn btn-primary btn-sm" title="К списку пользователей"><span class="fa fa-arrow-left"></span></a>
+</p>
+
+@using (Html.BeginForm("Create", "Users", new { }, FormMethod.Post, null, new { enctype = "multipart/form-data" }))
+{
+    @await Html.PartialAsync("_createEdit", Model)
+}
+

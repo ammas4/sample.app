@@ -1,0 +1,130 @@
+﻿@model AppSample.Admin.Models.Statistics.StatisticsStatViewModel
+@{
+    ViewBag.Title = "Аналитика";
+}
+
+<h2>Аналитика</h2>
+
+@if (Model.SelectedCtn == null)
+{
+    <div class="row">
+        <p>Выберите даты</p>
+    </div>
+}
+
+@if (false)
+{
+    using (Html.BeginForm("Index", "Statistics", new {}, FormMethod.Post, true, new {enctype = "multipart/form-data"}))
+    {
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+
+                Дата c <input type="datetime-local" name="beginDate" value="@(Model.BeginDate?.ToString("yyyy-MM-ddTHH:mm"))"/>
+                по <input type="datetime-local" name="endDate" value="@(Model.EndDate?.ToString("yyyy-MM-ddTHH:mm"))"/>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Сервис провайдеры @Html.ListBoxFor(m => m.SelectedProviderIds, ViewBag.ServiceProviders as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Кроме сервис провайдеров @Html.ListBoxFor(m => m.ExceptedProviderIds, ViewBag.ServiceProviders as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Статус операций @Html.DropDownListFor(m => m.SelectedStatusType, ViewBag.StatusTypes as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Операторы @Html.ListBoxFor(m => m.SelectedOperatorsIds, ViewBag.Operators as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Группировка по дате @Html.DropDownListFor(m => m.SelectedDateGrouping, ViewBag.DateGrouping as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Группировка по сервис-провайдерам @Html.DropDownListFor(m => m.SelectedSPGrouping, ViewBag.SPGrouping as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                Тип запроса @Html.DropDownListFor(m => m.SelectedQueryTypes, ViewBag.QueryTypes as List<SelectListItem>, new {})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-primary" value="save" name="CommandTarget">Поиск</button>
+            </div>
+        </div>
+    }
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="row">
+        <p class="text-danger">@ViewBag.Error</p>
+    </div>
+}
+
+@if (Model.Items != null)
+{
+    <div id="statList">
+        <table class="table table-striped">
+            <!--
+            <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Сервис провайдер</th>
+                <th>Оператор</th>
+                <th>API методы</th>
+                <th>Входные данные</th>
+                <th>Код ответа</th>
+                <th>Статус</th>
+                <th>Детали</th>
+            </tr>
+            </thead>
+            -->
+            <tbody>
+            @foreach (var item in Model.Items)
+            {
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr>
+                    <td colspan="8">Нет записей</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        
+        @{
+        /*
+        @if (Model.TotalItemCount > Model.PageSize || Model.PageNumber > 0)
+        {
+            <div class="pager">
+                @Html.Pager(Model.PageSize, Model.PageNumber + 1, Model.TotalItemCount).Options(o => o
+                    .DisplayTemplate("BootstrapPagination")
+                    .AddRouteValue("ctn", Model.SelectedCtn)
+                    .MaxNrOfPages(5))
+            </div>
+        }
+        */
+        }
+    </div>
+}

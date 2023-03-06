@@ -1,0 +1,18 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: {{ .Release.Name }}-postgres
+spec:
+  teamId: "mobid"
+  volume:
+    size: {{ .Values.postgres.size }}
+    storageClass: {{ .Values.postgres.storageClass }}
+  numberOfInstances: {{ .Values.postgres.numberOfInstances }}
+  enableConnectionPooler: {{ .Values.postgres.enableConnectionPooler }}
+  preparedDatabases:
+    {{ .Values.postgres.dbName }}:
+      defaultUsers: true
+      schemas:
+        public: {}
+  postgresql:
+    version: "14"

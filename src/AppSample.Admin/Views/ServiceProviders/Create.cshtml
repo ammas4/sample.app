@@ -1,0 +1,11 @@
+﻿@model AppSample.Admin.Models.ServiceProviders.ServiceProviderAddEditViewModel
+
+@using (Html.BeginForm("Create", "ServiceProviders", new { }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+{
+    @await Html.PartialAsync("_createEdit", Model)
+}
+
+@section Scripts
+{
+    @await Html.PartialAsync("_createEditScripts", Model)
+}

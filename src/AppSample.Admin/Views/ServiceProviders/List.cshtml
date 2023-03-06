@@ -1,0 +1,77 @@
+﻿@using AppSample.Admin.Models.ServiceProviders
+@model ServiceProviderListViewModel
+
+@{
+    ViewBag.Title = "Список cервис-провайдеров";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Сервис-провайдеры</p>
+
+@using (Html.BeginForm("Index", "ServiceProviders", FormMethod.Get))
+{
+    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm" title="Добавление нового cервис-провайдера">
+        <span class="fa fa-plus"></span>
+    </a>
+
+    <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm" style="margin-left: 20px;">Очистить фильтры</a>
+
+    @Html.DropDownListFor(x => x.SortType, ServiceProviderListViewModel.SortTypes, new { @class = "form-select inline-control" })
+
+    @Html.TextBoxFor(x => x.Name, new { @class = "form-control inline-control", placeholder = "Название" })
+
+    @Html.DropDownListFor(x => x.Mode, ServiceProviderListViewModel.Modes, "Mode", new { @class = "form-select inline-control" })
+
+    @Html.DropDownListFor(x => x.Status, ServiceProviderListViewModel.Statuses, "Status", new { @class = "form-select inline-control" })
+
+    <button type="submit" class="btn btn-primary btn-sm">Применить</button>
+}
+
+<div id="campaignsList">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Client name</th>
+            <th>Mode</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Name<br/>@item.CreatedAt</td>
+                <td>@string.Join(", ", item.Modes.Select(x => x.ToString()))</td>
+                <td style="white-space: nowrap;">
+                    <a href="@Url.Action("Detail", new {id = item.Id})" class="btn btn-primary btn-sm" title="Детали">
+                        <span class="fa fa-th-list"></span>
+                    </a>
+
+                    <a href="@Url.Action("Edit", new {id = item.Id})" class="btn btn-primary btn-sm" title="Редактировать">
+                        <span class="fa fa-edit"></span>
+                    </a>
+
+                    <a href="@Url.Action("Confirm", new {id = item.Id, type = ActionKey.Clone})" class="btn btn-primary btn-sm" title="Копировать">
+                        <span class="fa fa-copy"></span>
+                    </a>
+
+                    <a href="@Url.Action("Confirm", new {id = item.Id, type = ActionKey.Delete})" class="btn btn-primary btn-sm" title="Удалить">
+                        <span class="fa fa-trash"></span>
+                    </a>
+
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .inline-control {
+        width: auto;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+    }
+</style>

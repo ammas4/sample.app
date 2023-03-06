@@ -1,0 +1,41 @@
+﻿@model AppSample.Admin.Models.ServiceProviders.ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Детали</h2>
+
+<p>
+    <a href="@Url.Action("Index")" class="btn btn-primary btn-sm" title="К списку сервис-провайдеров"><span class="fa fa-arrow-left"></span></a>
+</p>
+
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th scope="row">№</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th scope="row">Доступен</th>
+        <td>@(Model.Active?"да":"нет")</td>
+    </tr>
+    <tr>
+        <th scope="row">Название</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th scope="row">ClientId</th>
+        <td>@Model.ClientId</td>
+    </tr>
+    <tr>
+        <th scope="row">Redirect Url</th>
+        <td>@Model.RedirectUrls</td>
+    </tr>
+    <tr>
+        <th scope="row">TTL</th>
+        <td>@Model.TTL</td>
+    </tr>
+    </tbody>
+</table>

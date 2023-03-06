@@ -1,0 +1,23 @@
+﻿@using AppSample.Admin.Models
+@model AppSample.Admin.Models.AdminUsers.AdminUserAddViewModel
+
+@{
+    ViewBag.Title = "Подтверждение действий";
+}
+
+<div>
+    <h2>Подтверждение удаления пользователя</h2>
+
+    <p>Вы собираетесь удалить пользователя @Model.Login</p>
+    <p>
+        @using (Html.BeginForm("Update", "Users", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            @Html.Hidden("type", ActionKey.Delete)
+
+            <button class="btn btn-primary btn-sm">Удалить</button>
+            <a href="@Url.Action("Index")" class="btn btn-primary btn-sm">Назад</a>
+        }
+    </p>
+</div>
