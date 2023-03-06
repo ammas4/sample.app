@@ -118,7 +118,7 @@ public static class ServicesConfig
             services.AddHangfire(x => x.UsePostgreSqlStorage(commonSettings.ConnectionString));
             GlobalConfiguration.Configuration.UsePostgreSqlStorage(commonSettings.ConnectionString);
 
-            foreach (var type in TypesHelper.GetAllDescendantsInBeelineAssemblies<BaseJob>())
+            foreach (var type in TypesHelper.GetAllDescendantsInAppSampleAssemblies<BaseJob>())
             {
                 services.AddSingleton(type);
             }
