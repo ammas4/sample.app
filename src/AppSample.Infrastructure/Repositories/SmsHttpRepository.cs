@@ -10,8 +10,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using AppSample.CoreTools.Helpers;
-using AppSample.CoreTools.Infrustructure.Interfaces;
-using AppSample.CoreTools.Infrustructure;
+using AppSample.CoreTools.Infrastructure.Interfaces;
+using AppSample.CoreTools.Infrastructure;
 using AppSample.Domain.DAL.DTOs;
 
 namespace AppSample.Infrastructure.Repositories

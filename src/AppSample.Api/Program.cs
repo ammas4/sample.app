@@ -31,7 +31,7 @@ try
 
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new() {Title = "IDGW api", Version = "v1"});
+        c.SwaggerDoc("v1", new() {Title = "AppSample api", Version = "v1"});
         c.AddSecurityDefinition("basic", new()
         {
             Name = "Authorization",
@@ -99,7 +99,7 @@ try
     if (commonConfig.ShowSwagger)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IDGW api"); });
+        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "AppSample api"); });
     }
 
     app.UseExceptionHandler(new ExceptionHandlerOptions

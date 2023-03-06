@@ -1,4 +1,5 @@
-﻿using AppSample.Domain.Helpers;
+﻿using AppSample.CoreTools.Settings;
+using AppSample.Domain.Helpers;
 using AppSample.Domain.Models;
 using AppSample.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ public class OpenIdConfigController : ControllerBase
 	[Produces("application/json")]
 	public async Task<MobileConnectOpenidConfig> OpenIdConfigAggr()
 	{
-		return await _memoryCache.GetOrCreateAsync(CacheKeys.OpenIdConfig(), async e =>
+        return await _memoryCache.GetOrCreateAsync(CacheKeys.OpenIdConfig(), async e =>
 		{
 			e.AbsoluteExpirationRelativeToNow = _cacheSettings.OidcCacheTime;
 

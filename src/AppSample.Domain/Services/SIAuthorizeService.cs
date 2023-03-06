@@ -12,8 +12,8 @@ using AppSample.Domain.Models.Constants;
 using System.Diagnostics;
 using AppSample.CoreTools.Contracts;
 using AppSample.CoreTools.Exceptions;
-using AppSample.CoreTools.Infrustructure.Interfaces;
-using AppSample.CoreTools.Infrustructure;
+using AppSample.CoreTools.Infrastructure.Interfaces;
+using AppSample.CoreTools.Infrastructure;
 using AppSample.Domain.DAL.DTOs;
 using AppSample.Domain.Services.AuthenticationChain;
 

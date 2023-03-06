@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
-using AppSample.CoreTools.Infrustructure;
-using AppSample.CoreTools.Infrustructure.Interfaces;
+using AppSample.CoreTools.Infrastructure;
+using AppSample.CoreTools.Infrastructure.Interfaces;
 using AppSample.Domain.DAL;
 using AppSample.Domain.Interfaces;
 using AppSample.Domain.Models;

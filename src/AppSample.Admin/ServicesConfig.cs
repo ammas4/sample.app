@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using AppSample.Domain.DAL;
 using AppSample.Infrastructure.DAL;
 using AppSample.Infrastructure.Services;
+using AppSample.CoreTools.RedisSignal;
 
 namespace AppSample.Admin;
 

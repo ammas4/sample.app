@@ -5,6 +5,7 @@ using AppSample.Domain.Models.ServiceProviders;
 using AppSample.CoreTools.Redis;
 using AppSample.Domain.Models.Settings;
 using Microsoft.Extensions.Logging;
+using AppSample.CoreTools.RedisSignal;
 
 namespace AppSample.Domain.Services;
 
@@ -24,7 +25,7 @@ public class CachedConfigService : ICachedConfigService
         _redisSignalService = redisSignalSignalService;
         _logger = logger;
 
-        _redisSignalService.OnStateChange += () =>
+        _redisSignalService.OnStateChange += (str) =>
         {
             _logger.LogDebug("Configuration change signal");
             Load();

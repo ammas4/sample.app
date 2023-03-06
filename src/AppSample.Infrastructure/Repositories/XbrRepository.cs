@@ -2,8 +2,8 @@
 using AppSample.Domain.DAL;
 using AppSample.Domain.Models;
 using AppSample.CoreTools.Helpers;
-using AppSample.CoreTools.Infrustructure;
-using AppSample.CoreTools.Infrustructure.Interfaces;
+using AppSample.CoreTools.Infrastructure;
+using AppSample.CoreTools.Infrastructure.Interfaces;
 using Microsoft.Extensions.Options;
 
 namespace AppSample.Infrastructure.Repositories;
