@@ -1,10 +1,10 @@
 ﻿@model AppSample.Api.Models.AskUserTextVm
 @using AppSample.Api
-@using AppSample.Api.Controllers
+@using AppSample.Domain.Models.Constants;
 @using AppSample.CoreTools.Extensions;
 
 @{
-    var userAnswerPath = Url.RouteFullUrl(UssdController.UserAnswerRouteName, Model.IdgwSettings.BasePath);
+    var userAnswerPath = Url.RouteFullUrl(ControllerUrls.UssdUserAnswerRouteName, Model.IdgwSettings.BasePath);
 }
 
 <HTML>

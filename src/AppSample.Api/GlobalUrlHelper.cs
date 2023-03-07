@@ -1,6 +1,6 @@
-﻿using AppSample.Api.Controllers;
-using AppSample.Domain.Interfaces;
+﻿using AppSample.Domain.Interfaces;
 using AppSample.Domain.Models;
+using AppSample.Domain.Models.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -39,7 +39,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
         //return RouteFullUrl(UssdController.AskUserTextRouteName);
 
         // сделал так, т.к. ActionContext не всегда доступен
-        return CombineToFullUrl(_idgwSettings.BasePath, UssdController.AskUserTextPath);
+        return CombineToFullUrl(_idgwSettings.BasePath, ControllerUrls.AskUserTextPath);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
     /// <returns></returns>
     public string GetMcPushAnswerUrl()
     {
-        return CombineToFullUrl(_idgwSettings.BasePath, McController.PushAnswerPath);
+        return CombineToFullUrl(_idgwSettings.BasePath, ControllerUrls.McPushAnswerPath);
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
     /// <returns></returns>
     public string GetMcPushPinAnswerUrl()
     {
-        return CombineToFullUrl(_idgwSettings.BasePath, McController.PushPinAnswerPath);
+        return CombineToFullUrl(_idgwSettings.BasePath, ControllerUrls.McPushPinAnswerPath);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
     /// <returns></returns>
     public string GetDstkMcPushAnswerUrl()
     {
-        return CombineToFullUrl(_idgwSettings.BasePath, DstkController.PushAnswerPath);
+        return CombineToFullUrl(_idgwSettings.BasePath, ControllerUrls.DstkPushAnswerPath);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
     /// <returns></returns>
     public string GetDstkPushPinAnswerUrl()
     {
-        return CombineToFullUrl(_idgwSettings.BasePath, DstkController.PushPinAnswerPath);
+        return CombineToFullUrl(_idgwSettings.BasePath, ControllerUrls.DstkPushPinAnswerPath);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
     /// <param name="interactionId"></param>
     /// <returns></returns>
     public string GetHheRequestUrl(Guid interactionId) =>
-        CombineToFullUrl(_idgwSettings.BasePath, $"{HheController.HheRequestUrl}?interaction_id={interactionId}");
+        CombineToFullUrl(_idgwSettings.BasePath, $"{ControllerUrls.HheRequestUrl}?interaction_id={interactionId}");
 
     /// <summary>
     /// Полный адрес эндпоинта для завершения определения номера абонета по IP адресу.
@@ -93,7 +93,7 @@ public class GlobalUrlHelper : IGlobalUrlHelper
     /// не является поддоменом beeline.ru, в этом адресе будет использоваться alias-хост из beeline.ru.
     /// </summary>
     public string GetHheEnrichmentUrl(Guid interactionId) =>
-        CombineToFullUrl(_idgwSettings.BasePathAliasForXbr, $"{HheController.HheEnrichmentUrl}?interaction_id={interactionId}");
+        CombineToFullUrl(_idgwSettings.BasePathAliasForXbr, $"{ControllerUrls.HheEnrichmentUrl}?interaction_id={interactionId}");
 
     /// <summary>
     /// Генерирует полный путь к эндпоинту на основе имени маршрута
